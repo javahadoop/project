@@ -1,0 +1,25 @@
+BEGIN 
+  DECLARE v_last_day VARCHAR(10);
+	  SET v_last_day = DATE_ADD(CURDATE(), INTERVAL -1 DAY);
+		
+
+
+	  -- 媒体数据校验记录
+	  INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('媒体校对记录统计开始',0,'pro_dw_days_111',NOW());
+	  CALL pro_dw_days_111(v_last_day, @v);
+	  INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('媒体校对记录统计结束',@v,'pro_dw_days_111',NOW());
+
+--     INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('媒体校对记录统计开始',0,'pro_dw_days_112',NOW());
+--   CALL pro_dw_days_112(v_last_day, @v);
+-- NSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('媒体校对记录统计结束',@v,'pro_dw_days_112',NOW());
+
+		INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('车系线索周报开始',0,'pro_dw_days_114',NOW());
+	  CALL pro_dw_days_114(v_last_day, @v);
+	  INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('车系线索周报结束',@v,'pro_dw_days_114',NOW());
+
+		INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('车系线索月报开始',0,'pro_dw_days_115',NOW());
+	  CALL pro_dw_days_115(v_last_day, @v);
+		INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('车系线索月报开始',@v,'pro_dw_days_115',NOW());
+
+	  
+END

@@ -1,0 +1,61 @@
+BEGIN
+	    
+DECLARE v_last_day VARCHAR(10);
+	
+ SET v_last_day = DATE_ADD(CURDATE(), INTERVAL -1 DAY);
+-- set v_last_day = '2014-08-31';
+	
+	-- 400、dossback 同步
+	-- INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('更新录入doss400',0,'t_origional_leads_freecall',NOW());
+	-- UPDATE t_origional_leads_freecall INNER JOIN 
+	-- (SELECT MAX(t_doss_back.ID) AS did, MAX(t_origional_leads_freecall.id) AS oid FROM 
+	-- 		t_origional_leads_freecall, t_doss_back
+	-- WHERE t_origional_leads_freecall.CALLNUM = t_doss_back.MOBILE
+		-- AND t_origional_leads_freecall.DEALERCODE = t_doss_back.DEALERID
+		-- AND t_origional_leads_freecall.CHANNELTIME <= t_doss_back.CDATE
+		-- AND t_doss_back.CDATE <= CONCAT(v_last_day,' 23:59:59')
+		-- AND t_doss_back.CDATE >= CONCAT(v_last_day,' 00:00:00')
+		-- GROUP BY t_doss_back.PHONE,t_doss_back.DEALERID) vals
+	-- ON t_origional_leads_freecall.id = vals.oid AND t_origional_leads_freecall.PAIRID IS NULL
+	-- SET t_origional_leads_freecall.PAIRID = vals.did;
+	-- INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('更新录入doss400',0,'t_origional_leads_freecall',NOW());
+	
+	#清空当月记录
+	-- DELETE FROM t_as_testdata WHERE YEAR(CDATE) = YEAR(v_last_day) AND MONTH(CDATE) = MONTH(v_last_day);
+	-- DELETE FROM `bak_eq_testdata`;
+	#piwik日报
+					
+	INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('PIWIK日统计开始',0,'pro_piwik_everyday',NOW());
+	CALL pro_piwik_everyday(v_last_day, @v);
+	INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('PIWIK日统计结束',@v,'pro_piwik_everyday',NOW());
+	
+	#计算基础数据
+-- 	INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('计算基础数据',0,'pro_dw_days_200',NOW());
+-- 	CALL pro_dw_days_200(v_last_day, @v);
+-- 	INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('计算基础数据',@v,'pro_dw_days_200',NOW());
+	-- 第一步
+	#计算任务完成量 插入$$eq_testdata
+	-- INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('计算任务完成量',0,'pro_dw_days_201',NOW());
+	-- CALL pro_dw_days_201(v_last_day, @v);
+	-- INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('计算任务完成量',@v,'pro_dw_days_201',NOW());
+	-- 第二步
+	#计算考核得分 插入t_as_testdata
+	-- INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('计算考核得分',0,'pro_dw_days_202',NOW());
+ 	-- CALL pro_dw_days_202(v_last_day, @v);
+ 	-- INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('计算考核得分',@v,'pro_dw_days_202',NOW());
+	-- 第三步
+	#计算得分排行 插入
+	#t_as_regional_topscore	大区明细排行
+	#t_as_regional_totaltopscore 大区得分排行
+	#t_as_dealer_topscore	经销商明细排行
+	#t_as_dealer_totaltopscore 经销商得分排行
+	#t_as_basedata_count	基础数据明细
+	-- INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('计算得分排行',0,'pro_dw_days_203',NOW());
+ 	-- CALL pro_dw_days_203(v_last_day, @v);
+ 	-- INSERT INTO `bak_procs_message` (MESSAGE,STATE,PRONAME,CDATE) VALUES ('计算得分排行',@v,'pro_dw_days_203',NOW());
+	  
+	    
+	
+	  
+	    
+	END
