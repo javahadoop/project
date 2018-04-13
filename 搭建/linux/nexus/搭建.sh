@@ -6,7 +6,7 @@ RUN_AS_USER=root
 
 
 2.配置nexus
-http://104.225.145.169:8081/nexus/
+http://ip:8081/nexus/
 
 
  
