@@ -7,6 +7,8 @@ RUN_AS_USER=root
 
 2.配置nexus
 http://ip:8081/nexus/
+u:admin
+p:wqknexus
 
 
  
